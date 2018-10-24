@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Wolf of Investopedia</title>
+  <!-- Bootstrap core CSS-->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="{{ url_for('static', filename='css/sb-admin.css') }}" rel="stylesheet">
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+    <!-- <script src="Chart.bundle.js"></script> -->
+<script>
+  function resizeIframe(obj) {
+    obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+  }
+</script>
+
+
+  <style>
+     #Blocker{
+
+    position:absolute;
+    z-index:10;
+    right:10px;
+    bottom:5px;
+    height:15px;
+    width:100px;
+    background-color:orange;
+}
+#frame{
+
+    height:100%;
+    width:100%;
+     position:absolute;
+}
+#Wrapper{
+    height:100%;
+    width:auto;
+    border:solid red 2px;
+}
+  body.fixed-na {
+    padding-top: 1%;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+</style>
+
+</head>
+
+<body class="fixed-na sticky-footer bg-dark" id="page-top">
+
+  <!-- Navigation-->
+    {% if openHours == "closed" %}
+      {% include 'timeWarning.html' %}
+    {% endif %}
+     
+    <div class="container-fluid">
+    <!-- <button type="button" class="btn btn-warning btn-block">Generate Profitable Trade</button>  <br>-->
+  
+
+     <center>
+      <!-- Breadcrumbs-->
+     
+      <!-- Icon Cards-->
+      <form id="myform" role = "form" action = "{{url_for('genTrade') }}" method="post">
+      <div class="row">
+
+        <div class="col-xl-3 col-sm-4 mb-3">
+          <div class="card text-white bg-danger o-hidden h-100">
+          
+            <button class="card-footer text-white clearfix small z-1" type="Submit" text="Text" name="Short" href = "{{url_for('genTrade') }}">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-arrow-down"></i>
+              </div>
+              <center><h4><b>Short</b></h4></center>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-6 col-sm-4 mb-3 input-group" >
+          <input type="text" name="Ticker" class="form-control" id="Input_Ticker" aria-label="Amount (to the nearest dollar)" style="text-align: center; font-size: 68px; text-transform:uppercase" onfocus="this.placeholder=''" onblur="this.placeholder='Input Stock Ticker'" placeholder="{{ stock }} Quote">
+        </div>
+
+
+         <div class="col-xl-3 col-sm-4 mb-3">
+          <div class="card text-white bg-success o-hidden h-100">
+          
+            <button class="card-footer text-white clearfix small z-1" type="Submit" name="Long" href = "{{url_for('genTrade') }}">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-arrow-up"></i>
+              </div>
+              <center><h4><b>Long</b></h4></center>
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
+      <!-- Area Chart Example-->
+      <div>
+      <h1 style="color: white">Our algorithms detect this stock is <b style="color: red">{{ priceType }}</b> on Investopedia</h1>
+
+      {% if position == "short" %}
+        {% if profitable == "True" %}
+          <h1 style="color: white">Shorting this stock would yield a <b style="color: green">{{ profit }} GAIN</b> per 1k shares</h1>
+        {% else %}
+          <h1 style="color: white">Shorting this stock would yield a <b style="color: red">{{ profit }} LOSS</b> per 1k shares</h1>
+        {% endif %}
+      {% else %}
+          {% if profitable == "False" %}
+          <h1 style="color: white">Buying this stock would yield a <b style="color: red">{{ profit }} LOSS</b> per 1k shares</h1> 
+          {% else %}
+          <h1 style="color: white">Buying this stock would yield a <b style="color: green">{{ profit }} GAIN</b> per 1k shares</h1>
+          {% endif %}
+      {% endif %}
+
+      
+
+      <h5 style="color: white"><b>Assuming a 15 Minute Holding Period</b></h5>
+
+      </div>
+
+
+      <div class="card mb-3">
+          <div>
+
+  <iframe id="frameID" src="https://s.tradingview.com/widgetembed/?symbol={{ stockTicker }}&interval=D&toolbarbg=f4f7f9&studies=%5B%5D&theme=Dark&timezone=exchange" width="100%" height="450px" scrolling="no"></iframe>
+        </div>
+        <div class="card-footer small text-muted">Updated {{ currentTime }}</div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+
+    <!-- /.content-wrapper-->
+    
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/popper/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/sb-admin.min.js') }}"></script>
+    <!-- Custom scripts for this page-->
+    <script src="{{ url_for('static', filename='js/sb-admin-datatables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sb-admin-charts.min.js') }}"></script>
+  </div>
+</body>
+
+</html>
+
+
