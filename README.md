@@ -1,4 +1,4 @@
-# Wolf_of_Investopedia
+# PyInTrade
 
 [![N|Solid](static/bg.png)](https://www.investopedia.com/)
 
